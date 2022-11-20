@@ -27,7 +27,7 @@ public class Life : MonoBehaviour, IDamageable
     protected void Die()
     {
         isDead = true;
-        DataManager.Instance().Scoring();
+        DataManager.Instance.Scoring();
         Destroy(gameObject);
     }
 

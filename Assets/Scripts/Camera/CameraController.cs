@@ -17,8 +17,7 @@ public class CameraController : MonoBehaviour
         transform.rotation = Quaternion.Euler(cameraRotation);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
         transform.position = character.transform.position + cameraPositionOffset;
     }

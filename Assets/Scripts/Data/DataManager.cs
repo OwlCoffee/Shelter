@@ -6,18 +6,22 @@ public class DataManager : MonoBehaviour
 {
     private static DataManager instance;
 
-    public static DataManager Instance()
+    public static DataManager Instance
     {
-        if (instance == null)
+        get
         {
-            instance = new DataManager();
-        }
+            if (instance == null)
+            {
+                instance = new DataManager();
+            }
 
-        return instance;
+            return instance;
+        }
     }
 
     public int enemyKillCount = 0;
     public int score = 0;
+    private float comboScore = 1.06f;
 
     private void Awake()
     {
@@ -35,6 +39,6 @@ public class DataManager : MonoBehaviour
     public void Scoring()
     {
         enemyKillCount++;
-        score += 100;
+        score = (int)((score + 100) * comboScore);
     }
 }
