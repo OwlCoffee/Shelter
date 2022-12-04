@@ -7,8 +7,11 @@ public class Enemy : Life
 {
     NavMeshAgent tracePlayer;
     Transform target;
+    GameObject player;
 
     private float enemyMaxHealth;
+    private bool state_Attack;
+    private float damage;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -17,15 +20,19 @@ public class Enemy : Life
 
         enemyMaxHealth = 30.0f;
         SetMaxHealth(enemyMaxHealth);
+        state_Attack = false;
+        damage = 10.0f;
 
 #if UNITY_EDITOR
         Debug.Log("Enemy's Max health " + maxHealth);
 #endif
 
         tracePlayer = GetComponent<NavMeshAgent>();
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player");
+        target = player.transform;
 
         StartCoroutine(UpdatePath());
+        StartCoroutine(AttackLoop());
     }
 
     IEnumerator UpdatePath()
@@ -42,8 +49,16 @@ public class Enemy : Life
 
                 tracePlayer.SetDestination(targetPosition);
 
-                if (targetDistance < 3.0f) tracePlayer.Stop();
-                else tracePlayer.Resume();
+                if (targetDistance < 3.0f)
+                {
+                    tracePlayer.Stop();
+                    state_Attack = true;
+                }
+                else
+                {
+                    tracePlayer.Resume();
+                    state_Attack = false;
+                }
 
 //#if UNITY_EDITOR
 //                Debug.Log(targetDistance);
@@ -52,6 +67,39 @@ public class Enemy : Life
 
             yield return new WaitForSeconds(traceRate);
         }
+    }
+
+    IEnumerator AttackLoop()
+    {
+        float attackRate = 1.0f;
+
+        while (target != null)
+        {
+            if (!isDead)
+            {
+                if(state_Attack)
+                {
+                    Debug.Log("Attack");
+                    Attack(player);
+                }
+            }
+
+            yield return new WaitForSeconds(attackRate);
+        }
+    }
+
+    public void Attack(GameObject hit)
+    {
+        IDamageable damageable = hit.GetComponent<IDamageable>();
+
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage);
+        }
+
+#if UNITY_EDITOR
+        Debug.Log("Hit");
+#endif
     }
 
     protected float CalculateDistance(Vector3 target)

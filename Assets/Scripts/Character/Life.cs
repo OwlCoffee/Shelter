@@ -27,11 +27,30 @@ public class Life : MonoBehaviour, IDamageable
     protected void Die()
     {
         isDead = true;
-        DataManager.Instance.Scoring();
-        Destroy(gameObject);
+        
+        if (gameObject.tag.Equals("Enemy"))
+        {
+            DataManager.Instance.Scoring();
+            Destroy(gameObject, 1.0f);
+        }
+        else if (gameObject.tag.Equals("Player")) Debug.Log("Player is dead");
     }
 
     public void TakeDamage(float damage, RaycastHit ray)
+    {
+        health -= damage;
+
+#if UNITY_EDITOR
+        Debug.Log("Object's hp " + health);
+#endif
+
+        if (health <= 0 && !isDead)
+        {
+            Die();
+        }
+    }
+
+    public void TakeDamage(float damage)
     {
         health -= damage;
 

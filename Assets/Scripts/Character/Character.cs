@@ -62,7 +62,12 @@ public class Character : Life
         if (characterController.isGrounded)
         {
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            moveDirection *= moveSpeed;
+
+            if (Input.GetKey("left shift")) // Sprint
+            {
+                moveDirection *= moveSpeed + 5.0f;
+            }
+            else moveDirection *= moveSpeed;
         }
 
         cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -79,8 +84,8 @@ public class Character : Life
             gunController.FireButton();
         }
 
-//#if UNITY_EDITOR
-//        Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
-//#endif
+        //#if UNITY_EDITOR
+        //        Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
+        //#endif
     }
 }

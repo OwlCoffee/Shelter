@@ -5,13 +5,33 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    private void Start()
+    private static SceneLoader instance;
+
+    public static SceneLoader Instance
     {
-        DontDestroyOnLoad(gameObject);
+        get
+        {
+            if (instance == null)
+            {
+                instance = new SceneLoader();
+            }
+
+            return instance;
+        }
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     public void LoadMainScene()
     {
         SceneManager.LoadScene("MainScene");
+    }
+
+    public void LoadShelterScene()
+    {
+        SceneManager.LoadScene("ShelterScene");
     }
 }
