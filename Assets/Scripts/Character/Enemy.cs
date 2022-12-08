@@ -9,10 +9,19 @@ public class Enemy : Life
     Transform target;
     GameObject player;
 
+    private Animator enemyAnimator;
+
     private float enemyMaxHealth;
     private bool state_Attack;
     private float damage;
 
+    private void Update()
+    {
+        enemyAnimator.SetBool("HasTarget", target);
+
+        if (isDead) enemyAnimator.SetTrigger("Die");
+    }
+    
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -30,6 +39,9 @@ public class Enemy : Life
         tracePlayer = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         target = player.transform;
+
+        // Enemy Animation
+        enemyAnimator = GetComponent<Animator>();
 
         StartCoroutine(UpdatePath());
         StartCoroutine(AttackLoop());
@@ -60,9 +72,9 @@ public class Enemy : Life
                     state_Attack = false;
                 }
 
-//#if UNITY_EDITOR
-//                Debug.Log(targetDistance);
-//#endif
+                //#if UNITY_EDITOR
+                //                Debug.Log(targetDistance);
+                //#endif
             }
 
             yield return new WaitForSeconds(traceRate);
@@ -77,7 +89,7 @@ public class Enemy : Life
         {
             if (!isDead)
             {
-                if(state_Attack)
+                if (state_Attack)
                 {
                     Debug.Log("Attack");
                     Attack(player);
@@ -112,5 +124,10 @@ public class Enemy : Life
         distance = Mathf.Sqrt(xDifferent * xDifferent + zDifferent * zDifferent);
 
         return distance;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        tracePlayer.speed = speed;
     }
 }

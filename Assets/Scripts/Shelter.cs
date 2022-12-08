@@ -18,4 +18,9 @@ public class Shelter : MonoBehaviour
     {
         this.shelterTag = tagName;
     }
+
+    public string GetShelterTag()
+    {
+        return this.shelterTag;
+    }
 }

@@ -52,6 +52,7 @@ public class Character : Life
 
         characterSpeed = Mathf.Sqrt(Vector3.Dot(moveDirection, moveDirection));
         characterController.Move(moveDirection * Time.deltaTime);
+        if (characterSpeed < 0.5) characterSpeed = 0.0f;
         characterAnimator.SetFloat("Move", characterSpeed);
     }
 
@@ -87,5 +88,10 @@ public class Character : Life
         //#if UNITY_EDITOR
         //        Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
         //#endif
+    }
+
+    public float GetPlayerHP()
+    {
+        return health;
     }
 }

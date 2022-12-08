@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Life : MonoBehaviour, IDamageable
     protected float health;
 
     protected bool isDead;
+
+    public event Action onDeath;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -30,8 +33,12 @@ public class Life : MonoBehaviour, IDamageable
         
         if (gameObject.tag.Equals("Enemy"))
         {
+            if (onDeath != null)
+            {
+                onDeath();
+            }
+
             DataManager.Instance.Scoring();
-            Destroy(gameObject, 1.0f);
         }
         else if (gameObject.tag.Equals("Player")) Debug.Log("Player is dead");
     }
@@ -61,6 +68,7 @@ public class Life : MonoBehaviour, IDamageable
         if (health <= 0 && !isDead)
         {
             Die();
+            SceneLoader.Instance.LoadGameOverScene();
         }
     }
 }

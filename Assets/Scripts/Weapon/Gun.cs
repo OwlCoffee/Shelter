@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fireRate = 500.0f;
+        fireRate = 100.0f;
         enableFireTime = 0.0f;
         bulletSpeed = 200.0f;
     }

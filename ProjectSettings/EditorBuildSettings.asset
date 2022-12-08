@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ShelterScene.unity
     guid: 78bb1ec4494fc704ba7dc1ea82b4fc8c
+  - enabled: 1
+    path: Assets/Scenes/GameOverScene.unity
+    guid: 5bbca527aed3b594ca86cdd453d4005a
   m_configObjects: {}

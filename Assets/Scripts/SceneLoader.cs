@@ -34,4 +34,14 @@ public class SceneLoader : MonoBehaviour
     {
         SceneManager.LoadScene("ShelterScene");
     }
+
+    public void LoadTitleScene()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void LoadGameOverScene()
+    {
+        SceneManager.LoadScene("GameOverScene");
+    }
 }

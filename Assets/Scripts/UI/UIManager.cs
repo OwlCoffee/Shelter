@@ -35,11 +35,15 @@ public class UIManager : MonoBehaviour
 
     public Text killCountText;
     public Text scoreText;
+    public Text hpText;
+
+    public Character player;
 
     // Update is called once per frame
     void Update()
     {
         killCountText.text = "Kill Count : " + DataManager.Instance.enemyKillCount;
         scoreText.text = "Score : " + DataManager.Instance.score;
+        hpText.text = "Player's HP : " + player.GetPlayerHP();
     }
 }
