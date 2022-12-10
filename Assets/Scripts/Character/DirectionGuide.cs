@@ -33,7 +33,7 @@ public class DirectionGuide : MonoBehaviour
         shelterFixedPosition.x = goalShelter.transform.position.x;
         shelterFixedPosition.z = goalShelter.transform.position.z;
 
-        shelterDirection = GetGoalDirection(playerFixedPosition, shelterFixedPosition);
+        shelterDirection = GetGoalDirection(playerFixedPosition, shelterFixedPosition) * Time.deltaTime;
         transform.rotation = Quaternion.LookRotation(shelterDirection);
     }
 

@@ -49,10 +49,9 @@ public class Character : Life
     private void FixedUpdate()
     {
         moveDirection.y -= gravity * Time.deltaTime;
-
-        characterSpeed = Mathf.Sqrt(Vector3.Dot(moveDirection, moveDirection));
+        characterSpeed = moveDirection.magnitude;
         characterController.Move(moveDirection * Time.deltaTime);
-        if (characterSpeed < 0.5) characterSpeed = 0.0f;
+        if (characterSpeed < 1.0f) characterSpeed = 0.0f;
         characterAnimator.SetFloat("Move", characterSpeed);
     }
 
@@ -62,7 +61,7 @@ public class Character : Life
         // Input keyboard button for character movement
         if (characterController.isGrounded)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
 
             if (Input.GetKey("left shift")) // Sprint
             {

@@ -41,7 +41,9 @@ public class EnemySpawner : MonoBehaviour
         enemies.Add(enemy);
         //enemy.SetSpeed(Random.Range(2, 7));
 
+        enemy.onDeath += () => enemy.tracePlayer.isStopped = true;
+        enemy.onDeath += () => enemy.enemyAnimator.SetTrigger("Die");
         enemy.onDeath += () => enemies.Remove(enemy);
-        enemy.onDeath += () => Destroy(enemy.gameObject, 1.5f);
+        enemy.onDeath += () => Destroy(enemy.gameObject, 5.0f);
     }
 }

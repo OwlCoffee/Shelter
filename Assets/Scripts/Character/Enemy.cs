@@ -5,11 +5,11 @@ using UnityEngine.AI;
 
 public class Enemy : Life
 {
-    NavMeshAgent tracePlayer;
+    public NavMeshAgent tracePlayer;
     Transform target;
     GameObject player;
 
-    private Animator enemyAnimator;
+    public Animator enemyAnimator;
 
     private float enemyMaxHealth;
     private bool state_Attack;
@@ -19,7 +19,7 @@ public class Enemy : Life
     {
         enemyAnimator.SetBool("HasTarget", target);
 
-        if (isDead) enemyAnimator.SetTrigger("Die");
+        //if (isDead) enemyAnimator.SetTrigger("Die");
     }
     
     // Start is called before the first frame update
@@ -63,12 +63,12 @@ public class Enemy : Life
 
                 if (targetDistance < 3.0f)
                 {
-                    tracePlayer.Stop();
+                    tracePlayer.isStopped = true;
                     state_Attack = true;
                 }
                 else
                 {
-                    tracePlayer.Resume();
+                    tracePlayer.isStopped = false;
                     state_Attack = false;
                 }
 
