@@ -43,6 +43,8 @@ public class EnemySpawner : MonoBehaviour
 
         enemy.onDeath += () => enemy.tracePlayer.isStopped = true;
         enemy.onDeath += () => enemy.enemyAnimator.SetTrigger("Die");
+        enemy.onDeath += () => enemy.enemyAudioPlayer.Play();
+        enemy.onDeath += () => enemy.GetComponent<CapsuleCollider>().enabled = false;
         enemy.onDeath += () => enemies.Remove(enemy);
         enemy.onDeath += () => Destroy(enemy.gameObject, 5.0f);
     }

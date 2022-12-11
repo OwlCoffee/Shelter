@@ -15,22 +15,25 @@ public class Enemy : Life
     private bool state_Attack;
     private float damage;
 
+    public AudioSource enemyAudioPlayer;
+
     private void Update()
     {
         enemyAnimator.SetBool("HasTarget", target);
-
-        //if (isDead) enemyAnimator.SetTrigger("Die");
     }
-    
+
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
 
+        enemyAudioPlayer = GetComponent<AudioSource>();
+
+
         enemyMaxHealth = 30.0f;
         SetMaxHealth(enemyMaxHealth);
         state_Attack = false;
-        damage = 10.0f;
+        damage = 5.0f;
 
 #if UNITY_EDITOR
         Debug.Log("Enemy's Max health " + maxHealth);

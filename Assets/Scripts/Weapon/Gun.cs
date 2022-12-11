@@ -11,9 +11,13 @@ public class Gun : MonoBehaviour
     private float enableFireTime;
     private float bulletSpeed;
 
+    private AudioSource gunAudioPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
+        gunAudioPlayer = GetComponent<AudioSource>();
+
         fireRate = 100.0f;
         enableFireTime = 0.0f;
         bulletSpeed = 200.0f;
@@ -26,6 +30,15 @@ public class Gun : MonoBehaviour
             enableFireTime = Time.time + fireRate / 1000;
             Projectile newBullet = Instantiate(bullet, gunMuzzle.position, gunMuzzle.rotation);
             newBullet.SetProjectileSpeed(bulletSpeed);
+
+            StartCoroutine(ShotSound());
         }
+    }
+
+    private IEnumerator ShotSound()
+    {
+        gunAudioPlayer.Play();
+
+        yield return null;
     }
 }

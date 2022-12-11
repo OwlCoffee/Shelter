@@ -60,6 +60,7 @@ public class Life : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         health -= damage;
+        DataManager.Instance.playerHP = health;
 
 #if UNITY_EDITOR
         Debug.Log("Object's hp " + health);

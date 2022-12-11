@@ -25,8 +25,9 @@ public class Character : Life
     {
         base.Start();
 
-        playerMaxHealth = 150.0f;
+        playerMaxHealth = 100.0f;
         SetMaxHealth(playerMaxHealth);
+        health = DataManager.Instance.playerHP;
 
 #if UNITY_EDITOR
         Debug.Log("Player's Max health " + maxHealth);
@@ -51,6 +52,15 @@ public class Character : Life
         moveDirection.y -= gravity * Time.deltaTime;
         characterSpeed = moveDirection.magnitude;
         characterController.Move(moveDirection * Time.deltaTime);
+
+        cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (groupPlane.Raycast(cameraRay, out rayDistance))
+        {
+            Vector3 lookPoint = cameraRay.GetPoint(rayDistance);
+            transform.LookAt(new Vector3(lookPoint.x, transform.position.y, lookPoint.z));
+        }
+
         if (characterSpeed < 1.0f) characterSpeed = 0.0f;
         characterAnimator.SetFloat("Move", characterSpeed);
     }
@@ -70,27 +80,36 @@ public class Character : Life
             else moveDirection *= moveSpeed;
         }
 
-        cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (groupPlane.Raycast(cameraRay, out rayDistance))
-        {
-            Vector3 lookPoint = cameraRay.GetPoint(rayDistance);
-            transform.LookAt(new Vector3(lookPoint.x, transform.position.y, lookPoint.z));
-        }
-
         // Input mouse button
         if (Input.GetMouseButton(0))
         {
             gunController.FireButton();
         }
-
-        //#if UNITY_EDITOR
-        //        Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
-        //#endif
     }
 
     public float GetPlayerHP()
     {
-        return health;
+        return DataManager.Instance.playerHP;
+    }
+
+    public void SetPlayerHP(float hp)
+    {
+        DataManager.Instance.playerHP = hp;
+    }
+
+    public void RestoreHealth(float hp)
+    {
+        DataManager.Instance.playerHP += hp;
+        if (DataManager.Instance.playerHP > 100.0f) DataManager.Instance.playerHP = 100.0f;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IItem item = other.GetComponent<IItem>();
+
+        if (item != null)
+        {
+            item.Use(gameObject);
+        }
     }
 }

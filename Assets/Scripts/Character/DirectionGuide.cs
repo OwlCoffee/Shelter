@@ -26,7 +26,7 @@ public class DirectionGuide : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void LateUpdate()
     {
         playerFixedPosition.x = transform.position.x;
         playerFixedPosition.z = transform.position.z;

@@ -21,6 +21,7 @@ public class DataManager : MonoBehaviour
 
     public int enemyKillCount = 0;
     public int score = 0;
+    public float playerHP = 100.0f;
     private float comboScore = 1.06f;
 
     private void Awake()
